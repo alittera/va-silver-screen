@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="css/style.css">
+
+<script src="js/d3.min.js"></script>
+<script src="js/d3-array.v2.min.js"></script>
+<script src="js/crossfilter.js"></script>
+<link href="css/bootstrap.css" rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+<body>
+
+    <nav class="navbar container fixed-top navbar-inverse bg-inverse  w-25 h-12">
+        <div class="mx-auto order-0">
+            
+                <button type="button" id="modalbutton" class="btn btn-outlin-secondary" data-toggle="modal" data-target="#film_modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+                        <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
+                        <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
+                    </svg>
+                </button>
+            
+        </div>
+    </nav>
+
+<div class="container-fluid h-100 overflow-hidden no-gutters">
+    <div class="row justify-content-center h-100 no-gutters p-0">
+        <div class="col-9">
+            <div class="row h-50 p-0">
+
+                <div id="genres" class="col-3 border p-0">
+                    <div>
+                      <input type="checkbox" name="orderGenre" id="orderGenre" checked ="false">
+                      <label for="orderGenre">
+                        <span type="button" class="btn btn-outline-secondary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sort-alpha-down" viewBox="0 0 16 16">
+                                  <path fill-rule="evenodd" d="M10.082 5.629 9.664 7H8.598l1.789-5.332h1.234L13.402 7h-1.12l-.419-1.371h-1.781zm1.57-.785L11 2.687h-.047l-.652 2.157h1.351z"/>
+                                  <path d="M12.96 14H9.028v-.691l2.579-3.72v-.054H9.098v-.867h3.785v.691l-2.567 3.72v.054h2.645V14zM4.5 2.5a.5.5 0 0 0-1 0v9.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L4.5 12.293V2.5z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sort-numeric-down-alt" viewBox="0 0 16 16">
+                                  <path fill-rule="evenodd" d="M11.36 7.098c-1.137 0-1.708-.657-1.762-1.278h1.004c.058.223.343.45.773.45.824 0 1.164-.829 1.133-1.856h-.059c-.148.39-.57.742-1.261.742-.91 0-1.72-.613-1.72-1.758 0-1.148.848-1.836 1.973-1.836 1.09 0 2.063.637 2.063 2.688 0 1.867-.723 2.848-2.145 2.848zm.062-2.735c.504 0 .933-.336.933-.972 0-.633-.398-1.008-.94-1.008-.52 0-.927.375-.927 1 0 .64.418.98.934.98z"/>
+                                  <path d="M12.438 8.668V14H11.39V9.684h-.051l-1.211.859v-.969l1.262-.906h1.046zM4.5 2.5a.5.5 0 0 0-1 0v9.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L4.5 12.293V2.5z"/>
+                                </svg>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="brushScatter" class="col-8 border-left border-bottom p-0"></div>
+                <div id="boxplot" class="col-1 border-right border-bottom p-0"></div>
+                
+                
+            </div>
+
+            <div class="row justify-content-center h-50 overflow-hidden">
+                
+                <div id="brushScatter_prod" class="col-5 border"></div>
+
+                <div id="lines" class="col-7 border">
+                    <div class="tooltip_lines" ></div>
+                    <div align="center" class="row">
+                        <div class="col">
+                            <select class="selectpicker" data-style="btn-outline-secondary" name="linesdropdown"  id="linesdropdown">
+                              <option value="production_company">Production Company</option>
+                              <option value="actor1">First actor</option>
+                              <option value="director">Director</option>
+                              <option value="actor2">Second Actor</option>
+                              <option value="genre1">Genre</option>
+                              <option value="writer">Writer</option>
+                              
+                            </select>
+                        
+                            <select class="selectpicker" data-style="btn-outline-secondary" name="linesdropdownreduce"  id="linesdropdown_reduce">
+                              <option value="sum">Number of films</option>
+                              <option value="votes">Votes</option>
+                              <option value="duration">Minutes</option>
+                              <option value="reviews_from_users">Reviews from users</option>
+                              <option value="reviews_from_critics">Reviews from critics</option>
+                              <option value="avg_vote">Avg_votes</option>
+                            </select>
+
+
+                            
+                            <input type="checkbox" name="timeline_action" id="timeline_action" checked ="false">
+                            <label for="timeline_action">
+                                <span type="button" class="btn btn-outline-secondary px-1">
+                                    <?xml version="1.0" encoding="UTF-8"?>
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16px" height="16px" viewBox="0 0 16 16" version="1.1" id="timeline-actioneduce-svg">
+                                    
+                                    <path class="timeline_svg_sum" fill="currentColor" d="M 13.070312 3.207031 L 13.070312 1.828125 L 4.113281 1.828125 L 9.382812 7.496094 C 9.714844 7.851562 9.710938 8.402344 9.375 8.753906 L 4.164062 14.171875 L 13.070312 14.171875 L 13.070312 13.339844 C 13.070312 12.835938 13.480469 12.425781 13.984375 12.425781 C 14.488281 12.425781 14.898438 12.835938 14.898438 13.339844 L 14.898438 15.085938 C 14.898438 15.589844 14.488281 16 13.984375 16 L 2.015625 16 C 1.648438 16 1.320312 15.78125 1.175781 15.445312 C 1.03125 15.105469 1.101562 14.714844 1.355469 14.453125 L 7.457031 8.109375 L 1.347656 1.539062 C 1.097656 1.269531 1.03125 0.882812 1.179688 0.550781 C 1.324219 0.214844 1.652344 0 2.015625 0 L 13.984375 0 C 14.488281 0 14.898438 0.410156 14.898438 0.914062 L 14.898438 3.207031 C 14.898438 3.710938 14.488281 4.121094 13.984375 4.121094 C 13.480469 4.121094 13.070312 3.710938 13.070312 3.207031 Z M 13.070312 3.207031 "/>
+                                   
+                                    
+                                    <path class="timeline_svg_mean" visibility="hidden" fill="currentColor" d="M 0.601562 15.265625 L 6.84375 8.722656 L 1.339844 2.714844 L 3.882812 2.714844 L 6.808594 5.933594 C 7.417969 6.601562 7.851562 7.113281 8.109375 7.472656 C 8.46875 7.019531 8.894531 6.542969 9.382812 6.042969 L 12.632812 2.714844 L 14.953125 2.714844 L 9.285156 8.628906 L 15.394531 15.265625 L 12.75 15.265625 L 8.691406 10.789062 C 8.464844 10.53125 8.230469 10.25 7.988281 9.949219 C 7.628906 10.40625 7.371094 10.71875 7.214844 10.890625 L 3.164062 15.265625 Z M 0.601562 15.265625 "/>
+                                    <path class="timeline_svg_mean" visibility="hidden" style="fill-rule:nonzero;fill:rgb(42.352941%,45.882353%,49.019608%);fill-opacity:0.878431;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(42.352941%,45.882353%,49.019608%);stroke-opacity:1;stroke-miterlimit:4;" d="M 128.791009 142.512594 L 138.309194 142.512594 L 138.309194 142.708682 L 128.791009 142.708682 Z M 128.791009 142.512594 " transform="matrix(1.126955,0,0,0.87652,-142.516615,-123.575326)"/>
+                                    
+                                    </svg>
+                                </span>
+                            </label>
+                        
+                        </div>
+
+
+                    </div>
+                </div>
+         
+           </div>
+
+       </div>
+       <div id="horizontalbar" class="col-3 h-48 border">
+            <div class="sticky-sm-top bg-white">
+                <div align="" class="row">
+                    <div class="col p-0">
+                        <div style="position: absolute; left: 0px; top:40px">
+                            <input type="checkbox" name="sortorder" id="sortorder" checked ="false">
+                        <label for="sortorder">
+                            <span type="button" class="btn btn-outline-secondary px-1">
+                                <svg  id="sortorder-svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sort-up-alt" viewBox="0 0 16 16">
+                                <!--<path class="sort-down" visibility="hidden" d="M3.5 13.5a.5.5 0 0 1-1 0V4.707L1.354 5.854a.5.5 0 1 1-.708-.708l2-1.999.007-.007a.498.498 0 0 1 .7.006l2 2a.5.5 0 1 1-.707.708L3.5 4.707V13.5zm4-9.5a.5.5 0 0 1 0-1h1a.5.5 0 0 1 0 1h-1zm0 3a.5.5 0 0 1 0-1h3a.5.5 0 0 1 0 1h-3zm0 3a.5.5 0 0 1 0-1h5a.5.5 0 0 1 0 1h-5zM7 12.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5z"/>-->
+                                <!--<path class="sort-up" visibility="hidden" d="M3.5 2.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L3.5 11.293V2.5zm3.5 1a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zM7.5 6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zm0 3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zm0 3a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1h-1z"/>
+                                </svg>-->
+                                <path fill-rule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5z"/>
+                            </span>
+                        </label>
+                        <input type="checkbox" name="sortname" id="sortname" checked ="false">
+                        <label for="sortname">
+                            <span type="button" class="btn btn-outline-secondary px-1">
+                                <svg id="sortname-svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    
+
+                                    <path class="sort-numeric-down" visibility="hidden" fill-rule="evenodd" d="M11.36 7.098c-1.137 0-1.708-.657-1.762-1.278h1.004c.058.223.343.45.773.45.824 0 1.164-.829 1.133-1.856h-.059c-.148.39-.57.742-1.261.742-.91 0-1.72-.613-1.72-1.758 0-1.148.848-1.836 1.973-1.836 1.09 0 2.063.637 2.063 2.688 0 1.867-.723 2.848-2.145 2.848zm.062-2.735c.504 0 .933-.336.933-.972 0-.633-.398-1.008-.94-1.008-.52 0-.927.375-.927 1 0 .64.418.98.934.98z"/>
+                                    <path class="sort-numeric-down" visibility="hidden" d="M12.438 8.668V14H11.39V9.684h-.051l-1.211.859v-.969l1.262-.906h1.046zM4.5 2.5a.5.5 0 0 0-1 0v9.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L4.5 12.293V2.5z"/>
+
+
+                                    
+                                      <path  class="sort-numeric-up" visibility="hidden" d="M12.438 1.668V7H11.39V2.684h-.051l-1.211.859v-.969l1.262-.906h1.046z"/>
+                                      <path  class="sort-numeric-up" visibility="hidden" fill-rule="evenodd" d="M11.36 14.098c-1.137 0-1.708-.657-1.762-1.278h1.004c.058.223.343.45.773.45.824 0 1.164-.829 1.133-1.856h-.059c-.148.39-.57.742-1.261.742-.91 0-1.72-.613-1.72-1.758 0-1.148.848-1.835 1.973-1.835 1.09 0 2.063.636 2.063 2.687 0 1.867-.723 2.848-2.145 2.848zm.062-2.735c.504 0 .933-.336.933-.972 0-.633-.398-1.008-.94-1.008-.52 0-.927.375-.927 1 0 .64.418.98.934.98z"/>
+                                      <path  class="sort-numeric-up" visibility="hidden" d="M4.5 13.5a.5.5 0 0 1-1 0V3.707L2.354 4.854a.5.5 0 1 1-.708-.708l2-1.999.007-.007a.498.498 0 0 1 .7.006l2 2a.5.5 0 1 1-.707.708L4.5 3.707V13.5z"/>
+
+
+
+                                    <path class="sort-alpha-down" visibility="hidden" fill-rule="evenodd" d="M10.082 5.629 9.664 7H8.598l1.789-5.332h1.234L13.402 7h-1.12l-.419-1.371h-1.781zm1.57-.785L11 2.687h-.047l-.652 2.157h1.351z"/>
+                                    <path class="sort-alpha-down" visibility="hidden" d="M12.96 14H9.028v-.691l2.579-3.72v-.054H9.098v-.867h3.785v.691l-2.567 3.72v.054h2.645V14zM4.5 2.5a.5.5 0 0 0-1 0v9.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L4.5 12.293V2.5z"/>
+
+                                    <path class="sort-alpha-up" visibility="hidden" d="M12.96 7H9.028v-.691l2.579-3.72v-.054H9.098v-.867h3.785v.691l-2.567 3.72v.054h2.645V7z"/>
+                                    <path class="sort-alpha-up" visibility="hidden" fill-rule="evenodd" d="M10.082 12.629 9.664 14H8.598l1.789-5.332h1.234L13.402 14h-1.12l-.419-1.371h-1.781zm1.57-.785L11 9.688h-.047l-.652 2.156h1.351z"/>
+                                    <path class="sort-alpha-up" visibility="hidden" d="M4.5 13.5a.5.5 0 0 1-1 0V3.707L2.354 4.854a.5.5 0 1 1-.708-.708l2-1.999.007-.007a.498.498 0 0 1 .7.006l2 2a.5.5 0 1 1-.707.708L4.5 3.707V13.5z"/>
+                                </svg>
+                                
+                            </span>
+                        </label>
+                            
+                        </div>
+                        
+                        <div id="percent_button" style="position:absolute; top:40px;left: 61px;">
+                            <input type="checkbox" name="barolot_percentage" id="barolot_percentage" checked ="false">
+                            <label for="barolot_percentage">
+                                <span type="button" class="btn btn-outline-secondary px-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-percent" viewBox="0 0 16 16">
+                                        <path d="M13.442 2.558a.625.625 0 0 1 0 .884l-10 10a.625.625 0 1 1-.884-.884l10-10a.625.625 0 0 1 .884 0zM4.5 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm7 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"></path>
+                                    </svg>
+                                </span>
+                            </label>
+                        </div>
+
+                        <div id="barplot_action_button" style="position:absolute; top:40px;left: 57px;">
+                            <input type="checkbox" name="barolot_action" id="barplot_action" checked ="false">
+                            <label for="barplot_action">
+                                <span type="button" class="btn btn-outline-secondary px-1">
+                                    <?xml version="1.0" encoding="UTF-8"?>
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16px" height="16px" viewBox="0 0 16 16" version="1.1" id="barplot-actionreduce-svg">
+                                    
+                                    <path class="barplot_svg_sum" fill="currentColor" d="M 13.070312 3.207031 L 13.070312 1.828125 L 4.113281 1.828125 L 9.382812 7.496094 C 9.714844 7.851562 9.710938 8.402344 9.375 8.753906 L 4.164062 14.171875 L 13.070312 14.171875 L 13.070312 13.339844 C 13.070312 12.835938 13.480469 12.425781 13.984375 12.425781 C 14.488281 12.425781 14.898438 12.835938 14.898438 13.339844 L 14.898438 15.085938 C 14.898438 15.589844 14.488281 16 13.984375 16 L 2.015625 16 C 1.648438 16 1.320312 15.78125 1.175781 15.445312 C 1.03125 15.105469 1.101562 14.714844 1.355469 14.453125 L 7.457031 8.109375 L 1.347656 1.539062 C 1.097656 1.269531 1.03125 0.882812 1.179688 0.550781 C 1.324219 0.214844 1.652344 0 2.015625 0 L 13.984375 0 C 14.488281 0 14.898438 0.410156 14.898438 0.914062 L 14.898438 3.207031 C 14.898438 3.710938 14.488281 4.121094 13.984375 4.121094 C 13.480469 4.121094 13.070312 3.710938 13.070312 3.207031 Z M 13.070312 3.207031 "/>
+                                   
+                                    
+                                    <path class="barplot_svg_mean" fill="currentColor" d="M 0.601562 15.265625 L 6.84375 8.722656 L 1.339844 2.714844 L 3.882812 2.714844 L 6.808594 5.933594 C 7.417969 6.601562 7.851562 7.113281 8.109375 7.472656 C 8.46875 7.019531 8.894531 6.542969 9.382812 6.042969 L 12.632812 2.714844 L 14.953125 2.714844 L 9.285156 8.628906 L 15.394531 15.265625 L 12.75 15.265625 L 8.691406 10.789062 C 8.464844 10.53125 8.230469 10.25 7.988281 9.949219 C 7.628906 10.40625 7.371094 10.71875 7.214844 10.890625 L 3.164062 15.265625 Z M 0.601562 15.265625 "/>
+                                    <path class="barplot_svg_mean" fill="currentColor" style="fill-opacity:0.878431;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(42.352941%,45.882353%,49.019608%);stroke-opacity:1;stroke-miterlimit:4;" d="M 128.791009 142.512594 L 138.309194 142.512594 L 138.309194 142.708682 L 128.791009 142.708682 Z M 128.791009 142.512594 " transform="matrix(1.126955,0,0,0.87652,-142.516615,-123.575326)"/>
+                                    
+                                    </svg>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div align="" class="row">
+                    <div class="col-sm-5 p-0">
+                        <select class="selectpicker" name="horizontalbar_dropdown"  data-width="100%" data-style="btn-outline-secondary" id="horizontalbar_dropdown">
+                            <option value="production_company">Production Company</option>
+                            <option value="actor1">First actor</option>
+                            <option value="director">Director</option>
+                            <option value="actor2">Second Actor</option>
+                            <option value="writer">Writer</option>
+                          </select>
+                    </div>
+                    <div class="col-sm-5 p-0">
+                        <select class="selectpicker" name="horizontalbar_dropdown_reduce"  data-width="100%"  data-style="btn-outline-secondary" id="horizontalbar_dropdown_reduce">
+                            <option value="sum">Number of films</option>
+                            <option value="votes">Votes</option>
+                            <option value="duration">Minutes</option>
+                            <option value="reviews_from_users">Reviews from users</option>
+                            <option value="reviews_from_critics">Reviews from critics</option>
+                            <option value="avg_vote">Avg_votes</option>
+                          </select>
+                    </div>
+                    <div class="col-sm-2 p-0">
+                        <select class="selectpicker" data-header="Sort using only:" data-style="btn-outline-secondary" id="horizontal_sort_genre" data-width="100%" multiple data-actions-box="true" data-selected-text-format="static" data-title="Sort">
+                        </select>
+                    </div>
+
+
+                </div>
+                
+                <div id="horizontalbar_stick_head" class="m-0 p-0"></div>
+                
+
+                
+                  
+                  
+                  
+
+
+            </div>
+        </div> 
+    </div>
+</div>
+<div class="modal fade" id="film_modal" tabindex="-1" role="dialog" aria-labelledby="film_modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="film_modalLabel">Options</h5>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        <div class="modal-body">
+         
+            <label for="customRange3" class="form-label">Select a minimum number of votes required for a film to be included.<br> It is advised to set a value higher than 5000 for improved performance.</label>
+            <input type="range" class="form-range slider" min="500" max="20000" step="500" id="initbound" onInput="$('#initboundval').html($(this).val())">
+            
+            <div style="text-align: center;">
+                <span id="initboundval"></span>
+            </div>
+            <br>
+            
+                <input class="form-check-input showcheck" type="checkbox" value="t" id="colorblind">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Use colorblind-friendly palette
+                </label>
+                <br>
+                <input class="form-check-input showcheck" type="checkbox" value="t" id="scrollstack">
+                <label class="form-check-label" for="flexCheckDefault2">
+                  Limit stacked bar scroll number of entities
+                </label>
+                    <br>
+                <input class="form-check-input showcheck" type="checkbox" value="t" id="opcitymovies">
+                <label class="form-check-label" for="flexCheckDefault3">
+                  Set opacity to 0.01 to show unselected movies
+                </label>
+
+
+
+            
+            <button type="button" class="btn btn-primary float-end" onclick="reload()">Reload</button>
+
+        </div>
+        <div class="modal-footer">
+          
+         
+        </div>
+
+        <div class="modal-header">
+            <h5 class="modal-title" id="film_modalLabel">How to use</h5>
+        </div>
+
+        <div class="modal-body">
+         
+            <div id="accordion">
+                <div class="card">
+                  <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Genres barplot (top-left)
+                      </button>
+                    </h5>
+                  </div>
+              
+                  <div id="collapseOne" class="collapse " aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header" id="headingTwo">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Movies scatterplot (top-center)
+                      </button>
+                    </h5>
+                  </div>
+                  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div class="card-body">
+                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header" id="headingThree">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Production companies scatterplot (bottom-left)
+                      </button>
+                    </h5>
+                  </div>
+                  <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="card-body">
+                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-header" id="headingFour">
+                      <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
+                         Time series entity plot (bottom-center) 
+                        </button>
+                      </h5>
+                    </div>
+                    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                      <div class="card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card">
+                    <div class="card-header" id="headingFive">
+                      <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseThree">
+                          Horizontal entity barplot (right)
+                        </button>
+                      </h5>
+                    </div>
+                    <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+                      <div class="card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                      </div>
+                    </div>
+                  </div>
+              </div>
+        </div><!-- end of modal body guide -->
+
+        <div class="modal-body"  style="text-align: center;">
+
+            <a role="button" id="modalbutton" class="btn btn-outlin-secondary" href="https://andrealittera.it/">Developed by Andrea Littera</a>
+        </div>
+       
+        
+
+      </div>
+    </div>
+  </div>
+
+    <!-- <div id="table">
+        <table>
+            <tr>
+                <th>title</th>
+                <th>avg_vote</th> 
+                <th>prod</th> 
+                <th>genre</th> 
+            </tr>
+        </table>
+    </div> -->
+
+
+</body>
+<script src="js/init.js"></script>
+<script src="js/Plot.js"></script>
+<script src="js/scatterMoviePlot.js"></script>
+<script src="js/scatterProdPlot.js"></script>
+<script src="js/timelinePlot.js"></script>
+<script src="js/horizontalBarPlot.js"></script>
+<script src="js/barchart.js"></script>
+<script src="js/boxplot.js"></script>
+
+
+
+</html>

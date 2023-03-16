@@ -1,0 +1,58 @@
+.selected {
+  opacity: 1 !important;
+  stroke: black;
+  stroke-width: 1px;
+}
+
+table {
+    visibility: hidden;
+    top: 30px;
+    left: 500px;
+    font-family: sans-serif;
+    font-size: 0.7em;
+}
+
+tr:nth-child(even) {
+    background-color: #d9d9d9;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  width: 100;
+  overflow: hidden;
+  font-size: 13px;
+}
+.tooltip{
+  float:  center;
+z-index: 100;
+margin: auto;
+
+}
+#horizontalbar{
+  margin-left: 0px;
+  float: left;
+height: 100%;
+  overflow-y: scroll;
+}
+
+
+input[type='checkbox']{
+  visibility: hidden;
+  width: 0px;
+  position: absolute;
+  left: 0px;
+}
+
+#modalbutton{
+background-color: rgba(255, 255, 255, 0.85);
+}
+
+.showcheck{
+  visibility: visible !important;
+  width: 15px !important;
+  height: 15px !important;
+  position: initial !important;
+  left: initial !important;
+}
+
