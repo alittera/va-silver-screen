@@ -1,6 +1,7 @@
 # va-silver-screen
 Unveiling the Silver Screen: A Visual Analytics Tool for Exploring Movie Data
 
+![Tool screenshot](https://raw.githubusercontent.com/alittera/va-silver-screen/main/screen.png "Visual analytics tool")
 
 Visual analytics tool for exploring the IMDb and MovieLens datasets, 
 serving both movie industry professionals and enthusiasts. 
