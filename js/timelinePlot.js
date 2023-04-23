@@ -298,7 +298,7 @@ update(){
             }else{return '#377eb8'}})
           .attr("stroke-width", 2.0)
           .style("opacity",  function (d){
-            if(timeline.property=="genre1"){ return 0.5
+            if(timeline.property=="genre1"){ return 0.99
             }else{return 0.2}})
           .attr("d", function(d){
             return liner(d.date)
@@ -413,7 +413,7 @@ update_button(){
             if(timeline.property=="genre1"){ return genre_color(d.name)
             }else{return '#377eb8'}})
            .style("opacity",  function (d){
-            if(timeline.property=="genre1"){ return 0.5
+            if(timeline.property=="genre1"){ return 0.99
             }else{return 0.2}})
         
       }
