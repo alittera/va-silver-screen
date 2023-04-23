@@ -118,7 +118,7 @@ class timelinePlot extends Plot {
       this.svg.select(".brush").call(this.brush.move, null) // This remove the grey brush area as soon as the selection has been done
     
 
-      yearFilter.filterRange([this.year_start,this.year_end])
+      yearFilter.filterRange([this.year_start,this.year_end+1])
     }
 
 }
@@ -157,9 +157,10 @@ update(){
   var linemax = 0;
   var lines= sumstat.filter(d => d.date.length>1);
   var lines_filled;
+  
   if(this.reduce_action){
     lines_filled= lines.map(fillgaps);
-    lines_filled = lines.map(smooth);
+    lines_filled = lines_filled.map(smooth);
   }else{
 
     lines_filled = lines.map(smooth);
@@ -167,7 +168,7 @@ update(){
   
 
   
-  //console.log(lines_filled)
+  
 
   var dots = sumstat.filter(d => d.date.length<2)
   var dotmax = d3.max(dots, function(d){return +d.date[0][1]})
@@ -175,6 +176,9 @@ update(){
   
   var dotmax = (dotmax && dotmax > -1) ? dotmax : 0
   var dotlinemax = (dotmax < linemax) ? linemax : dotmax;
+
+
+  console.log(lines_filled)
 
  
 
@@ -362,7 +366,6 @@ update_over_reset(){
 }
 
 update_over(){
-  console.log("update over")
   this.update_sel = this.svg.selectAll(".line")
   this.singlepoints = this.svg.selectAll("circle")
   this.update_sel
@@ -392,30 +395,30 @@ update_button(){
 
 
 
-    mouseover (d) {
-      if(timeline.get_tooltip()){
-        timeline.get_tooltip().remove()
-      }
-      timeline.new_tooltip()
-      timeline.show_tooltip(d.name)
-          
-        d3.select(this)
-          .style("stroke", "black")
-          .style("opacity", 1)
-        this.parentNode.appendChild(this);
-      }
+  mouseover (d) {
+    if(timeline.get_tooltip()){
+      timeline.get_tooltip().remove()
+    }
+    timeline.new_tooltip()
+    timeline.show_tooltip(d.name)
+        
+      d3.select(this)
+        .style("stroke", "black")
+        .style("opacity", 1)
+      this.parentNode.appendChild(this);
+  }
       
-      mouseleave (d) {
-        timeline.remove_tooltip()
-        
-        d3.select(this)
-           .style("stroke", function (d) {
-            if(timeline.property=="genre1"){ return genre_color(d.name)
-            }else{return '#377eb8'}})
-           .style("opacity",  function (d){
-            if(timeline.property=="genre1"){ return 0.99
-            }else{return 0.2}})
-        
-      }
+  mouseleave (d) {
+    timeline.remove_tooltip()
+    
+    d3.select(this)
+       .style("stroke", function (d) {
+        if(timeline.property=="genre1"){ return genre_color(d.name)
+        }else{return '#377eb8'}})
+       .style("opacity",  function (d){
+        if(timeline.property=="genre1"){ return 0.99
+        }else{return 0.2}})
+    
+  }
 }
 
