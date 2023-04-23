@@ -1,4 +1,4 @@
-let x_timeline,y_timeline;
+let x_timeline,y_timeline, bin_t;
 
 class timelinePlot extends Plot {
   constructor() {
@@ -16,7 +16,7 @@ class timelinePlot extends Plot {
   this.property = d3.select("#linesdropdown").property("value")
   this.property_reduce = d3.select("#linesdropdown_reduce").property("value")
   this.reduce_action = d3.select('#timeline_action').property("checked")
-
+  this.property_bin = d3.select("#linesdropdown_bin").property("value")
 
 
 
@@ -69,9 +69,15 @@ class timelinePlot extends Plot {
       timeline.update()
     })
 
-  dropdownButton = d3.select("#linesdropdown_reduce")
-  dropdownButton.on("change", function(d) {
+  var dropdownButton2 = d3.select("#linesdropdown_reduce")
+  dropdownButton2.on("change", function(d) {
       timeline.property_reduce = d3.select(this).property("value")
+      timeline.update()
+    })
+
+  var dropdownButtonBin = d3.select("#linesdropdown_bin")
+  dropdownButtonBin.on("change", function(d) {
+      timeline.property_bin = d3.select(this).property("value")
       timeline.update()
     })
 
@@ -112,7 +118,7 @@ class timelinePlot extends Plot {
       this.svg.select(".brush").call(this.brush.move, null) // This remove the grey brush area as soon as the selection has been done
     
 
-      yearFilter.filterRange([this.year_start,this.year_end+1])
+      yearFilter.filterRange([this.year_start,this.year_end])
     }
 
 }
@@ -150,19 +156,35 @@ update(){
 
   var linemax = 0;
   var lines= sumstat.filter(d => d.date.length>1);
-  var lines_filled=lines.map(fillgaps);
+  var lines_filled;
+  if(this.reduce_action){
+    lines_filled= lines.map(fillgaps);
+    lines_filled = lines.map(smooth);
+  }else{
+
+    lines_filled = lines.map(smooth);
+  }
+  
+
+  
+  //console.log(lines_filled)
 
   var dots = sumstat.filter(d => d.date.length<2)
   var dotmax = d3.max(dots, function(d){return +d.date[0][1]})
 
-  var dotmax = (dotmax && dotmax == true) ? dotmax : 0
+  
+  var dotmax = (dotmax && dotmax > -1) ? dotmax : 0
   var dotlinemax = (dotmax < linemax) ? linemax : dotmax;
 
+ 
+
   function fillgaps(d) {
+   
     var date_curr = d.date
     var lowEnd = date_curr[0][0]
     var highEnd = date_curr[date_curr.length - 1][0]
     const date_obj = Object.fromEntries(date_curr);
+
     //ricreo array con tutti i valori nell'intervallo e con i valori già presenti
     var date_new = [];
     
@@ -181,8 +203,54 @@ update(){
     return {name:d.name, date:date_new}
   }
 
+  function smooth(d) {
+    var date_curr = d.date
+    var bandwidth = parseInt(timeline.property_bin)
+    const date_obj = Object.fromEntries(date_curr);
+
+    //var bin = d3.bin().domain([timeline.year_start, timeline.year_end]);
+
+    var date_new = [];
+
+    var lowEnd = parseInt(date_curr[0][0])
+    var highEnd = parseInt(date_curr[date_curr.length - 1][0])
+    lowEnd=lowEnd-(lowEnd%bandwidth)
+    highEnd= highEnd + (bandwidth-highEnd)%bandwidth
+
+      for (var y = lowEnd; y <= highEnd;) {
+        var sum = 0
+        for(var x=y; x<y+bandwidth; x++){
+          var year = x.toString()
+          if (year in date_obj){
+           sum += parseFloat(date_obj[year])
+          }
+          
+        }
+        if(lines.reduce_action){
+          date_new.push([y, sum]);
+          linemax = ((linemax < sum) ? sum : linemax);
+        }else{
+          var current = parseFloat(sum/bandwidth)
+          date_new.push([y, current]);
+          linemax = ((linemax < current) ? current : linemax);
+        }
+         
+        y=y+bandwidth;    
+    }
+
+    return {name:d.name, date:date_new}
+  }
+
+  var year_start = this.year_start
+  var year_end = this.year_end
+  if (this.property_bin>1){
+    year_start = year_start-(year_start%this.property_bin)
+    year_end = year_end + ((this.property_bin-year_end)%this.property_bin)
+  }
+    
+
     x_timeline = d3.scaleLinear()
-      .domain([this.year_start, this.year_end])
+      .domain([year_start, year_end])
       .range([ 0, this.width ]);
 
     y_timeline = d3.scaleLinear()

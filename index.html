@@ -66,9 +66,9 @@
 
                 <div id="lines" class="col-7 border">
                     <div class="tooltip_lines" ></div>
-                    <div align="center" class="row">
-                        <div class="col">
-                            <select class="selectpicker" data-style="btn-outline-secondary" name="linesdropdown"  id="linesdropdown">
+                    <div align="" class="row">
+                        <div class="col-sm-4 p-0">
+                            <select class="selectpicker" data-style="btn-outline-secondary" data-width="100%" name="linesdropdown"  id="linesdropdown">
                               <option value="production_company">Production Company</option>
                               <option value="actor1">First actor</option>
                               <option value="director">Director</option>
@@ -77,8 +77,9 @@
                               <option value="writer">Writer</option>
                               
                             </select>
-                        
-                            <select class="selectpicker" data-style="btn-outline-secondary" name="linesdropdownreduce"  id="linesdropdown_reduce">
+                        </div>
+                        <div class="col-sm-4 p-0">
+                            <select class="selectpicker" data-style="btn-outline-secondary" data-width="100%" name="linesdropdownreduce"  id="linesdropdown_reduce">
                               <option value="sum">Number of films</option>
                               <option value="votes">Votes</option>
                               <option value="duration">Minutes</option>
@@ -87,9 +88,20 @@
                               <option value="avg_vote">Avg_votes</option>
                             </select>
 
-
-                            
-                            <input type="checkbox" name="timeline_action" id="timeline_action" checked ="false">
+                        </div>
+                        <div class="col-sm-4 p-0">
+                            <select class="selectpicker" data-style="btn-outline-secondary" data-width="100%" name="linesdropdownbin"  id="linesdropdown_bin">
+                              <option value=1>None</option>
+                              <option value=3>3 Anni</option>
+                              <option value=5>5 Anni</option>
+                              <option value=10>10 Anni</option>
+                              
+                              
+           
+                            </select>
+                        </div>
+                    <div style="position:absolute; margin-top:28px;margin-left: -8px;">
+                        <input type="checkbox" name="timeline_action" id="timeline_action" checked ="false">
                             <label for="timeline_action">
                                 <span type="button" class="btn btn-outline-secondary px-1">
                                     <?xml version="1.0" encoding="UTF-8"?>
@@ -104,10 +116,7 @@
                                     </svg>
                                 </span>
                             </label>
-                        
                         </div>
-
-
                     </div>
                 </div>
          
@@ -291,7 +300,7 @@
               
                   <div id="collapseOne" class="collapse " aria-labelledby="headingOne" data-parent="#accordion">
                     <div class="card-body">
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                     The graph shows the number of films for each genre, employing vertical bars to represent their respective count and comparative distribution. A single click on one of the vertical bars enables or disables the genre on all graphs. A double click instead allows the user to select a single genre or to reset the view. A disabled genre still remains present in the graph itself while the count decreases based on the selections of the other graphs. Through an element on the upper part, it is possible to sort the bars following the alphabetical order of the genres or according to the numerical value.
                     </div>
                   </div>
                 </div>
@@ -305,7 +314,11 @@
                   </div>
                   <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                     <div class="card-body">
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                      
+This scatterplot uses a collection of points placed using Cartesian coordinates to display the number of votes for a movie with respect to the average vote, each point is colored in relation to the plotted film genre. These were the two most important numerical values according to the analyzed literature[1][7]. This type of graph helps to find and select films based on the values shown in the Cartesian axes, but the overlay with different opacity also helps to get an idea of the distribution of films and genres, allowing database exploration and the control for the other graphs. Through the brushing action, it is possible to select an area of the graph to analyze only the corresponding films. Movies outside this area will remain visible but with a reduced opacity such as to allow for the dynamic movement of the selection box and actively analyze the changes of the other views. Similarly, selections in other graphs will make the films excluded less visible. Double click resets the brushed box.
+
+                      The boxplots is used to show the distribution of the number of votes. It shows the summary of the data: the minimum, the maximum, the sample median, and the first and third quartiles. The ordinate axis is in common with the scatterplot. Through the vertical brushing action, it is in fact possible to select a display interval for both graphs. This is very important as the scatterplot has a very unbalanced distribution towards films with fewer votes; it is therefore very difficult to distinguish films in such areas, which is why this graph allows performing the brush action that is equivalent to magnification. The double click resets the action of selecting the range and consequently resets the zoom.
+The graph shows the values for the currently selected films in gray but when the user hovers the mouse on other graphs, the color is changed to blue and the boxplot dynamically calculates only the values related to the entity hovered by the pointer.
                     </div>
                   </div>
                 </div>
@@ -319,7 +332,9 @@
                   </div>
                   <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
                     <div class="card-body">
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                      One of the main focuses of this project was to include analytics of production companies in the visualizations. To achieve this goal, proximity is utilized to reveal the sim- ilarity between companies in the plot. Multidimensionality reduction is achieved by computing t-distributed stochastic neighbor embedding, retaining the first two components for visualization.
+                      The graph adopts the YlOrRd[3] color scheme to represent the number of films produced by each company, with a gradient from yellow to dark red. Additionally, the graph provides pan and zooming capabilities via scrolling and enables the selection of a subset of companies through brushing. Hovering over a production company on this graph triggers other visualizations to display the associated movies corresponding to the selected company. The films not selected by the other graphs will be eliminated from the view, the selection on the graph itself affects the modification of the axes, whose quadrant is defined by the area selected by the brushing. Double-clicking resets the selection.
+This view is crucial for understanding the relationships between film companies and their production output.
                     </div>
                   </div>
                 </div>
@@ -335,7 +350,9 @@
                     </div>
                     <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
                       <div class="card-body">
-                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        Timeline plots are helpful for visual analytics as they enable users to track data over time to emphasize on trends and individual values. Users can interactively select various categories in the timeline plot to examine trends. The plot
+features a customizable interface at the top, consisting of dropdown menus and a button.
+The first dropdown menu allows users to choose the subject of their analysis, with options such as Production Company, First Actor, Director, Second Actor, Genre, and Writer. The second dropdown menu facilitates the selection of the metric for the vertical axis, including Number of films, Votes, Minutes (duration), Reviews from users, Reviews from critics, and Average votes (Avg votes). A button is provided to toggle between the sum and mean of the chosen metric, the button changes its symbol according to the selected mathematical operation which is changed dynamically. The plot displays a horizontal axis representing years, ranging from 1910 to 2020, and a vertical axis for the selected metric. Users can interact with the plot by brushing over a range of years, focusing on specific periods in the dataset. Double-clicking on the plot resets the interface, returning it to the default settings. Furthermore, when users hover over an element in other plots, the corresponding element in the timeline plot is highlighted, emphasizing the interactivity and interconnectedness of the visualizations. This interaction is particularly useful in cases where hundreds or thousands of entities are being represented, as overlapping elements can make it difficult to distinguish or locate specific data points. For this motivation single data points are not converted in lines and the visualization represents single points together with lines.
                       </div>
                     </div>
                   </div>
@@ -350,7 +367,8 @@
                     </div>
                     <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
                       <div class="card-body">
-                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        In this dynamically computed visualization, a stacked horizontal bar chart is used to display various entities and their associated metrics in the form of a genre part-to-whole bar. Entities are represented on the vertical axis, while the horizontal axis shows the aggregated values of the selected metric for each entity, divided into genre-specific segments. The interface provides two main dropdown menus and an additional one for sorting customization. The first dropdown menu allows users to choose the type
+of entity they want to analyze, such as Production Company, First Actor, Director, Second Actor, or Writer. The second dropdown menu enables users to select the metric used to calculate the aggregated values for the horizontal stacked bars, which include the options: Number of Films, Votes, Minutes (duration), Reviews from Users, Reviews from Critics, and Average Votes. The third dropdown menu allows users to select or deselect genres for sorting purposes, enabling the visualization to be sorted using a subset of the genres. Four interactive buttons are provided for further customization. Change ordering: Toggles between ascending and descending order for sorting. Alphabetical switch to numerical: Switches the sorting criteria between alphabetical and numerical order. Switch between mean or sum of values: Allows users to choose between displaying mean or sum values for the selected metric. Toggle percentage display: Switches between showing the stacked bars of genres as a proportion or absolute values. The list of entities, which can contain any number of elements, can be adapted based on the selected options, enabling users to either view all entities by scrolling or display only the top/bottom computed entities by the selected metric. With the stacked horizontal bars representing the genre contributions within each entity, users can easily compare the overall performance of the entities and the relative proportion of each genre, while the ranking features enable advanced investigation.
                       </div>
                     </div>
                   </div>
