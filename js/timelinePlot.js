@@ -285,14 +285,21 @@ update(){
     this.singlepoints = this.svg.selectAll("circle").data(dots, d => d[this.property])
 
 
+
+//colorpalette
+
     this.update_sel
         .enter()
         .append("path")
           .attr("class", "line")
           .attr("fill", "none")
-          .attr("stroke", '#377eb8')
+          .attr("stroke", function (d) {
+            if(timeline.property=="genre1"){ return genre_color(d.name)
+            }else{return '#377eb8'}})
           .attr("stroke-width", 2.0)
-          .style("opacity", 0.2)
+          .style("opacity",  function (d){
+            if(timeline.property=="genre1"){ return 0.5
+            }else{return 0.2}})
           .attr("d", function(d){
             return liner(d.date)
           }).attr('fill', 'none')
@@ -402,8 +409,12 @@ update_button(){
         timeline.remove_tooltip()
         
         d3.select(this)
-           .style("stroke", "#377eb8")
-           .style("opacity", 0.2)
+           .style("stroke", function (d) {
+            if(timeline.property=="genre1"){ return genre_color(d.name)
+            }else{return '#377eb8'}})
+           .style("opacity",  function (d){
+            if(timeline.property=="genre1"){ return 0.5
+            }else{return 0.2}})
         
       }
 }
