@@ -2,7 +2,7 @@ let x_movies,y_movies;
 class scatterMoviePlot extends Plot {
   constructor() {
 
-    super("#brushScatter",{top: 10, right: 30, bottom: 40, left: 75});
+    super("#brushScatter",{top: 10, right: 0, bottom: 40, left: 65});
 
     this.svg.select("g")
     .attr("class","scattgroup");
@@ -21,7 +21,10 @@ class scatterMoviePlot extends Plot {
         .range([ this.height, 0]);
 
     this.yAxis = this.svg.append("g")
-        .call(d3.axisLeft(y_movies))
+        .call(
+          d3.axisLeft(y_movies)
+          .tickFormat(function (d) { if ((d / 1000) >= 1) {  d = d / 1000 + "K";} return d;})
+        )
         .attr("class","scatter_y_axis");
 
     this.brush = d3.brush()                 // Add the brush feature using the d3.brush function
@@ -120,7 +123,7 @@ class scatterMoviePlot extends Plot {
     
     y_movies.domain(votes_domain)
 
-    this.yAxis.call(d3.axisLeft(y_movies));
+    this.yAxis.call(d3.axisLeft(y_movies).tickFormat(function (d) { if ((d / 1000) >= 1) {  d = d / 1000 + "K";} return d;}));
 
     this.ucircles = this.circles.data(ndx.allFiltered(), d => d.title+d.writer1)
     //this.svg.selectAll(".line")
