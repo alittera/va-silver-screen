@@ -158,15 +158,15 @@ update(){
   var lines = sumstat.filter(d => d.date.length>1);
   var lines_filled;
 
-  console.log(linemax)
+  //console.log(linemax)
 
   if(this.reduce_action){
-    //lines_filled= lines.map(fillgaps);
-    console.log(linemax)
+    lines_filled= lines.map(fillgaps);
+    
     lines_filled = lines.map(smooth);
-    console.log(linemax)
+    
   }else{
-
+    lines_filled= lines.map(fillgaps);
     lines_filled = lines.map(smooth);
   }
   
@@ -182,7 +182,7 @@ update(){
   var dotlinemax = (dotmax < linemax) ? linemax : dotmax;
 
 
-  console.log(lines_filled)
+  //console.log(lines_filled)
 
  
 
@@ -196,7 +196,7 @@ update(){
     //ricreo array con tutti i valori nell'intervallo e con i valori già presenti
     var date_new = [];
     
-    for (var y = lowEnd; y <= highEnd; y++) {
+    for (var y = lowEnd; y < highEnd; y++) {
         var year = y.toString()
         if (year in date_obj){
           var current = date_obj[year]
@@ -320,6 +320,12 @@ update(){
           .attr("d", function(d){
             return liner(d.date)
           })
+          .style("stroke", function (d) {
+            if(timeline.property=="genre1"){  return genre_color(d.name)
+            }else{return '#377eb8'}})
+          .style("opacity",  function (d){
+          if(timeline.property=="genre1"){ return 0.99
+          }else{return 0.2}})
           
 
     this.update_sel
@@ -358,8 +364,12 @@ update_over_reset(){
   this.update_sel = this.svg.selectAll(".line")
   this.singlepoints = this.svg.selectAll("circle")
   this.update_sel
-  .attr("stroke", '#377eb8')
-  .style("opacity", 0.2)
+  .style("stroke", function (d) {
+        if(timeline.property=="genre1"){ return genre_color(d.name)
+        }else{return '#377eb8'}})
+  .style("opacity",  function (d){
+        if(timeline.property=="genre1"){ return 0.99
+        }else{return 0.2}})
 
   this.singlepoints
   .attr("stroke", '#377eb8')
@@ -373,7 +383,10 @@ update_over(){
   this.update_sel = this.svg.selectAll(".line")
   this.singlepoints = this.svg.selectAll("circle")
   this.update_sel
-  .style("stroke", d => {if (d.name==tooltip_value){ return "black"} else { return '#377eb8'}})
+  .style("stroke", d => {if (d.name==tooltip_value){ return "black"} else { 
+        if(timeline.property=="genre1"){ return genre_color(d.name)
+        }else{return '#377eb8'}}
+  })
   .style("opacity", d => { if (d.name==tooltip_value){ return 1} else {return 0.01}})
 
   this.singlepoints

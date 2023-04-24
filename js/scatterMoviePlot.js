@@ -191,7 +191,7 @@ class scatterMoviePlot extends Plot {
 
 
   zoomed(transform) {
-      console.log("ddece", transform)
+      console.log("transform scatter", transform)
     
   }
 
