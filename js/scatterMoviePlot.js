@@ -2,7 +2,7 @@ let x_movies,y_movies;
 class scatterMoviePlot extends Plot {
   constructor() {
 
-    super("#brushScatter",{top: 10, right: 0, bottom: 40, left: 65});
+    super("#brushScatter",{top: 10, right: 10, bottom: 40, left: 65});
 
     this.svg.select("g")
     .attr("class","scattgroup");

@@ -155,12 +155,16 @@ update(){
   var sumstat = Array.from(sumstat, ([x, y]) => ({ name: x, date: Array.from(y) }));
 
   var linemax = 0;
-  var lines= sumstat.filter(d => d.date.length>1);
+  var lines = sumstat.filter(d => d.date.length>1);
   var lines_filled;
-  
+
+  console.log(linemax)
+
   if(this.reduce_action){
-    lines_filled= lines.map(fillgaps);
-    lines_filled = lines_filled.map(smooth);
+    //lines_filled= lines.map(fillgaps);
+    console.log(linemax)
+    lines_filled = lines.map(smooth);
+    console.log(linemax)
   }else{
 
     lines_filled = lines.map(smooth);
